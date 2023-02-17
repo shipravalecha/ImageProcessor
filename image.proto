@@ -6,6 +6,7 @@ service ImageProcessor {
   rpc flip (FlipRequest) returns (Image) {}
   rpc resize (ResizeRequest) returns (Image) {}
   rpc grayscale (GrayScaleRequest) returns (Image) {}
+  rpc thumbnail (ThumbnailRequest) returns (Image) {}
 }
 
 message Image {
@@ -26,5 +27,9 @@ message ResizeRequest {
 }
 
 message GrayScaleRequest {
+  Image image = 1;
+}
+
+message ThumbnailRequest {
   Image image = 1;
 }

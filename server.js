@@ -9,7 +9,8 @@ const server = new grpc.Server();
 server.addService(imageprocessor.ImageProcessor.service, {
   flip: flip,
   resize: resize,
-  grayscale: grayscale
+  grayscale: grayscale,
+  thumbnail: thumbnail
 });
 
 function flip(call, callback) {
@@ -80,6 +81,29 @@ function grayscale(call, callback) {
         grayscaled_image: grayscaleImageData,
       };
       callback(null, response.grayscaled_image);
+    });
+}
+
+function thumbnail(call, callback) {
+  const image = call.request.image;
+  const width = 300;
+  const height = 300;
+  sharp(image.data)
+    .resize(width,height)
+    .toBuffer(function(err, data) {
+      if (err) {
+        console.error(err);
+        callback(err, null);
+        return;
+      }
+      const thumbnailImageData = {
+        data: data,
+        format: image.format,
+      };
+      const response = {
+        thumbnail_image: thumbnailImageData,
+      };
+      callback(null, response.thumbnail_image);
     });
 }
 

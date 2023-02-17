@@ -56,3 +56,17 @@ client.grayscale(grayscaleRequest, function(err, response) {
   console.log("image grayscaled");
   fs.writeFileSync('./processed_image/grayscaled_dog3.jpg', grayscaleImageData.data);
 });
+
+const thumbnailRequest = {
+  image: imageData
+};
+
+client.thumbnail(thumbnailRequest, function(err, response) {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  const thumbnailImageData = response;
+  console.log("image thumbnail");
+  fs.writeFileSync('./processed_image/thumbnail_dog3.jpg', thumbnailImageData.data);
+});

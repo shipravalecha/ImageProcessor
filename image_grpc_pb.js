@@ -48,6 +48,17 @@ function deserialize_imageprocessor_ResizeRequest(buffer_arg) {
   return image_pb.ResizeRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_imageprocessor_ThumbnailRequest(arg) {
+  if (!(arg instanceof image_pb.ThumbnailRequest)) {
+    throw new Error('Expected argument of type imageprocessor.ThumbnailRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_imageprocessor_ThumbnailRequest(buffer_arg) {
+  return image_pb.ThumbnailRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 
 var ImageProcessorService = exports.ImageProcessorService = {
   flip: {
@@ -80,6 +91,17 @@ var ImageProcessorService = exports.ImageProcessorService = {
     responseType: image_pb.Image,
     requestSerialize: serialize_imageprocessor_GrayScaleRequest,
     requestDeserialize: deserialize_imageprocessor_GrayScaleRequest,
+    responseSerialize: serialize_imageprocessor_Image,
+    responseDeserialize: deserialize_imageprocessor_Image,
+  },
+  thumbnail: {
+    path: '/imageprocessor.ImageProcessor/thumbnail',
+    requestStream: false,
+    responseStream: false,
+    requestType: image_pb.ThumbnailRequest,
+    responseType: image_pb.Image,
+    requestSerialize: serialize_imageprocessor_ThumbnailRequest,
+    requestDeserialize: deserialize_imageprocessor_ThumbnailRequest,
     responseSerialize: serialize_imageprocessor_Image,
     responseDeserialize: deserialize_imageprocessor_Image,
   },
