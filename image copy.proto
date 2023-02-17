@@ -14,16 +14,11 @@ message Image {
 
 message FlipRequest {
   Image image = 1;
-  bool horizontal = 2;
-  bool vertical = 3;
+  string type = 2;
 }
 
 message ResizeRequest {
   Image image = 1;
   int64 width = 2;
   int64 height = 3;
-}
-
-message FlipResponse {
-  Image flipped_image = 1;
 }
