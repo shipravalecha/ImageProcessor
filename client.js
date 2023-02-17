@@ -70,3 +70,55 @@ client.thumbnail(thumbnailRequest, function(err, response) {
   console.log("image thumbnail");
   fs.writeFileSync('./processed_image/thumbnail_dog3.jpg', thumbnailImageData.data);
 });
+
+const rotateAnyAngleRequest = {
+  image: imageData,
+  angle: -90
+};
+
+client.rotateAnyAngle(rotateAnyAngleRequest, function(err, response) {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log("image rotated to: " + rotateAnyAngleRequest.angle);
+  const rotateImageData = response;
+  fs.writeFileSync('./processed_image/rotated_Any_dog3.jpg', rotateImageData.data);
+});
+
+// const newData = {
+//   data: fs.readFileSync('./images/rotatedLeft.jpg'),
+//   format: 'jpeg',
+// };
+
+const rotateLeftRequest = {
+  image: imageData,
+};
+
+client.rotateLeft(rotateLeftRequest, function(err, response) {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log("image rotated Left");
+  const rotateImageData = response;
+  fs.writeFileSync('./processed_image/rotatedLeft.jpg', rotateImageData.data);
+});
+
+const newData = {
+  data: fs.readFileSync('./images/rotatedLeft.jpg'),
+  format: 'jpeg',
+};
+const rotateRightRequest = {
+  image: newData,
+};
+
+client.rotateRight(rotateRightRequest, function(err, response) {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log("image rotated Right");
+  const rotateImageData = response;
+  fs.writeFileSync('./processed_image/rotatedRight.jpg', rotateImageData.data);
+});

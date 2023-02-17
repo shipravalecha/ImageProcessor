@@ -10,7 +10,10 @@ server.addService(imageprocessor.ImageProcessor.service, {
   flip: flip,
   resize: resize,
   grayscale: grayscale,
-  thumbnail: thumbnail
+  thumbnail: thumbnail,
+  rotateAnyAngle: rotateAnyAngle,
+  rotateLeft: rotateLeft,
+  rotateRight: rotateRight
 });
 
 function flip(call, callback) {
@@ -37,8 +40,6 @@ function flip(call, callback) {
 }
 
 function resize(call, callback) {
-  // console.log("resize");
-  // console.log(call);
   const image = call.request.image;
   const width = call.request.width.low;
   const height = call.request.height.low;
@@ -62,8 +63,6 @@ function resize(call, callback) {
 }
 
 function grayscale(call, callback) {
-  // console.log("grayscale");
-  // console.log(call);
   const image = call.request.image;
   sharp(image.data)
     .grayscale()
@@ -104,6 +103,72 @@ function thumbnail(call, callback) {
         thumbnail_image: thumbnailImageData,
       };
       callback(null, response.thumbnail_image);
+    });
+}
+
+function rotateAnyAngle(call, callback) {
+  const image = call.request.image;
+  const angle = call.request.angle.low;
+  sharp(image.data)
+    .rotate(angle)
+    .toBuffer(function(err, data) {
+      if (err) {
+        console.error(err);
+        callback(err, null);
+        return;
+      }
+      const rotateImageData = {
+        data: data,
+        format: image.format,
+      };
+      const response = {
+        rotate_image: rotateImageData,
+      };
+      callback(null, response.rotate_image);
+    });
+}
+
+function rotateLeft(call, callback) {
+  const image = call.request.image;
+  const angle = -90;
+  sharp(image.data)
+    .rotate(angle)
+    .toBuffer(function(err, data) {
+      if (err) {
+        console.error(err);
+        callback(err, null);
+        return;
+      }
+      const rotateImageData = {
+        data: data,
+        format: image.format,
+      };
+      const response = {
+        rotate_image: rotateImageData,
+      };
+      callback(null, response.rotate_image);
+    });
+}
+
+function rotateRight(call, callback) {
+  const image = call.request.image;
+  const angle = +90;
+  sharp(image.data)
+    .rotate(angle)
+    .toBuffer(function(err, data) {
+      if (err) {
+        console.error(err);
+        callback(err, null);
+        return;
+      }
+      const rotateImageData = {
+        data: data,
+        format: image.format,
+      };
+      const response = {
+        rotate_image: rotateImageData,
+      };
+      callback(null, response.rotate_image);
     });
 }
 

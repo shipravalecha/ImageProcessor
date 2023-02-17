@@ -48,6 +48,39 @@ function deserialize_imageprocessor_ResizeRequest(buffer_arg) {
   return image_pb.ResizeRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_imageprocessor_RotateLeftRequest(arg) {
+  if (!(arg instanceof image_pb.RotateLeftRequest)) {
+    throw new Error('Expected argument of type imageprocessor.RotateLeftRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_imageprocessor_RotateLeftRequest(buffer_arg) {
+  return image_pb.RotateLeftRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_imageprocessor_RotateRequest(arg) {
+  if (!(arg instanceof image_pb.RotateRequest)) {
+    throw new Error('Expected argument of type imageprocessor.RotateRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_imageprocessor_RotateRequest(buffer_arg) {
+  return image_pb.RotateRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_imageprocessor_RotateRightRequest(arg) {
+  if (!(arg instanceof image_pb.RotateRightRequest)) {
+    throw new Error('Expected argument of type imageprocessor.RotateRightRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_imageprocessor_RotateRightRequest(buffer_arg) {
+  return image_pb.RotateRightRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_imageprocessor_ThumbnailRequest(arg) {
   if (!(arg instanceof image_pb.ThumbnailRequest)) {
     throw new Error('Expected argument of type imageprocessor.ThumbnailRequest');
@@ -102,6 +135,39 @@ var ImageProcessorService = exports.ImageProcessorService = {
     responseType: image_pb.Image,
     requestSerialize: serialize_imageprocessor_ThumbnailRequest,
     requestDeserialize: deserialize_imageprocessor_ThumbnailRequest,
+    responseSerialize: serialize_imageprocessor_Image,
+    responseDeserialize: deserialize_imageprocessor_Image,
+  },
+  rotateAnyAngle: {
+    path: '/imageprocessor.ImageProcessor/rotateAnyAngle',
+    requestStream: false,
+    responseStream: false,
+    requestType: image_pb.RotateRequest,
+    responseType: image_pb.Image,
+    requestSerialize: serialize_imageprocessor_RotateRequest,
+    requestDeserialize: deserialize_imageprocessor_RotateRequest,
+    responseSerialize: serialize_imageprocessor_Image,
+    responseDeserialize: deserialize_imageprocessor_Image,
+  },
+  rotateLeft: {
+    path: '/imageprocessor.ImageProcessor/rotateLeft',
+    requestStream: false,
+    responseStream: false,
+    requestType: image_pb.RotateLeftRequest,
+    responseType: image_pb.Image,
+    requestSerialize: serialize_imageprocessor_RotateLeftRequest,
+    requestDeserialize: deserialize_imageprocessor_RotateLeftRequest,
+    responseSerialize: serialize_imageprocessor_Image,
+    responseDeserialize: deserialize_imageprocessor_Image,
+  },
+  rotateRight: {
+    path: '/imageprocessor.ImageProcessor/rotateRight',
+    requestStream: false,
+    responseStream: false,
+    requestType: image_pb.RotateRightRequest,
+    responseType: image_pb.Image,
+    requestSerialize: serialize_imageprocessor_RotateRightRequest,
+    requestDeserialize: deserialize_imageprocessor_RotateRightRequest,
     responseSerialize: serialize_imageprocessor_Image,
     responseDeserialize: deserialize_imageprocessor_Image,
   },

@@ -7,6 +7,9 @@ service ImageProcessor {
   rpc resize (ResizeRequest) returns (Image) {}
   rpc grayscale (GrayScaleRequest) returns (Image) {}
   rpc thumbnail (ThumbnailRequest) returns (Image) {}
+  rpc rotateAnyAngle (RotateRequest) returns (Image) {}
+  rpc rotateLeft (RotateLeftRequest) returns (Image) {}
+  rpc rotateRight (RotateRightRequest) returns (Image) {}
 }
 
 message Image {
@@ -31,5 +34,18 @@ message GrayScaleRequest {
 }
 
 message ThumbnailRequest {
+  Image image = 1;
+}
+
+message RotateRequest {
+  Image image = 1;
+  int64 angle = 2;
+}
+
+message RotateLeftRequest {
+  Image image = 1;
+}
+
+message RotateRightRequest {
   Image image = 1;
 }
