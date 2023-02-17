@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package imageprocessor;
+
+service ImageProcessor {
+  rpc flip (FlipRequest) returns (Image) {}
+}
+
+message Image {
+  bytes data = 1;
+  string format = 2;
+}
+
+message FlipRequest {
+  Image image = 1;
+  bool horizontal = 2;
+  bool vertical = 3;
+}
+
+message FlipResponse {
+  Image flipped_image = 1;
+}
