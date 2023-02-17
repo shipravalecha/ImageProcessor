@@ -22,7 +22,7 @@ var global = (function() {
 }.call(null));
 
 goog.exportSymbol('proto.imageprocessor.FlipRequest', null, global);
-goog.exportSymbol('proto.imageprocessor.FlipResponse', null, global);
+goog.exportSymbol('proto.imageprocessor.GrayScaleRequest', null, global);
 goog.exportSymbol('proto.imageprocessor.Image', null, global);
 goog.exportSymbol('proto.imageprocessor.ResizeRequest', null, global);
 /**
@@ -98,16 +98,16 @@ if (goog.DEBUG && !COMPILED) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.imageprocessor.FlipResponse = function(opt_data) {
+proto.imageprocessor.GrayScaleRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.imageprocessor.FlipResponse, jspb.Message);
+goog.inherits(proto.imageprocessor.GrayScaleRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
    * @override
    */
-  proto.imageprocessor.FlipResponse.displayName = 'proto.imageprocessor.FlipResponse';
+  proto.imageprocessor.GrayScaleRequest.displayName = 'proto.imageprocessor.GrayScaleRequest';
 }
 
 
@@ -731,8 +731,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.imageprocessor.FlipResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.imageprocessor.FlipResponse.toObject(opt_includeInstance, this);
+proto.imageprocessor.GrayScaleRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.imageprocessor.GrayScaleRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -741,13 +741,13 @@ proto.imageprocessor.FlipResponse.prototype.toObject = function(opt_includeInsta
  * @param {boolean|undefined} includeInstance Deprecated. Whether to include
  *     the JSPB instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.imageprocessor.FlipResponse} msg The msg instance to transform.
+ * @param {!proto.imageprocessor.GrayScaleRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.imageprocessor.FlipResponse.toObject = function(includeInstance, msg) {
+proto.imageprocessor.GrayScaleRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    flippedImage: (f = msg.getFlippedImage()) && proto.imageprocessor.Image.toObject(includeInstance, f)
+    image: (f = msg.getImage()) && proto.imageprocessor.Image.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -761,23 +761,23 @@ proto.imageprocessor.FlipResponse.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.imageprocessor.FlipResponse}
+ * @return {!proto.imageprocessor.GrayScaleRequest}
  */
-proto.imageprocessor.FlipResponse.deserializeBinary = function(bytes) {
+proto.imageprocessor.GrayScaleRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.imageprocessor.FlipResponse;
-  return proto.imageprocessor.FlipResponse.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.imageprocessor.GrayScaleRequest;
+  return proto.imageprocessor.GrayScaleRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.imageprocessor.FlipResponse} msg The message object to deserialize into.
+ * @param {!proto.imageprocessor.GrayScaleRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.imageprocessor.FlipResponse}
+ * @return {!proto.imageprocessor.GrayScaleRequest}
  */
-proto.imageprocessor.FlipResponse.deserializeBinaryFromReader = function(msg, reader) {
+proto.imageprocessor.GrayScaleRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -787,7 +787,7 @@ proto.imageprocessor.FlipResponse.deserializeBinaryFromReader = function(msg, re
     case 1:
       var value = new proto.imageprocessor.Image;
       reader.readMessage(value,proto.imageprocessor.Image.deserializeBinaryFromReader);
-      msg.setFlippedImage(value);
+      msg.setImage(value);
       break;
     default:
       reader.skipField();
@@ -802,9 +802,9 @@ proto.imageprocessor.FlipResponse.deserializeBinaryFromReader = function(msg, re
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.imageprocessor.FlipResponse.prototype.serializeBinary = function() {
+proto.imageprocessor.GrayScaleRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.imageprocessor.FlipResponse.serializeBinaryToWriter(this, writer);
+  proto.imageprocessor.GrayScaleRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -812,13 +812,13 @@ proto.imageprocessor.FlipResponse.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.imageprocessor.FlipResponse} message
+ * @param {!proto.imageprocessor.GrayScaleRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.imageprocessor.FlipResponse.serializeBinaryToWriter = function(message, writer) {
+proto.imageprocessor.GrayScaleRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getFlippedImage();
+  f = message.getImage();
   if (f != null) {
     writer.writeMessage(
       1,
@@ -830,10 +830,10 @@ proto.imageprocessor.FlipResponse.serializeBinaryToWriter = function(message, wr
 
 
 /**
- * optional Image flipped_image = 1;
+ * optional Image image = 1;
  * @return {?proto.imageprocessor.Image}
  */
-proto.imageprocessor.FlipResponse.prototype.getFlippedImage = function() {
+proto.imageprocessor.GrayScaleRequest.prototype.getImage = function() {
   return /** @type{?proto.imageprocessor.Image} */ (
     jspb.Message.getWrapperField(this, proto.imageprocessor.Image, 1));
 };
@@ -841,19 +841,19 @@ proto.imageprocessor.FlipResponse.prototype.getFlippedImage = function() {
 
 /**
  * @param {?proto.imageprocessor.Image|undefined} value
- * @return {!proto.imageprocessor.FlipResponse} returns this
+ * @return {!proto.imageprocessor.GrayScaleRequest} returns this
 */
-proto.imageprocessor.FlipResponse.prototype.setFlippedImage = function(value) {
+proto.imageprocessor.GrayScaleRequest.prototype.setImage = function(value) {
   return jspb.Message.setWrapperField(this, 1, value);
 };
 
 
 /**
  * Clears the message field making it undefined.
- * @return {!proto.imageprocessor.FlipResponse} returns this
+ * @return {!proto.imageprocessor.GrayScaleRequest} returns this
  */
-proto.imageprocessor.FlipResponse.prototype.clearFlippedImage = function() {
-  return this.setFlippedImage(undefined);
+proto.imageprocessor.GrayScaleRequest.prototype.clearImage = function() {
+  return this.setImage(undefined);
 };
 
 
@@ -861,7 +861,7 @@ proto.imageprocessor.FlipResponse.prototype.clearFlippedImage = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.imageprocessor.FlipResponse.prototype.hasFlippedImage = function() {
+proto.imageprocessor.GrayScaleRequest.prototype.hasImage = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 

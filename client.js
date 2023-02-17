@@ -42,3 +42,17 @@ client.resize(resizeRequest, function(err, response) {
   console.log("image resized");
   fs.writeFileSync('./processed_image/resized_dog3.jpg', resizedImageData.data);
 });
+
+const grayscaleRequest = {
+  image: imageData
+};
+
+client.grayscale(grayscaleRequest, function(err, response) {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  const grayscaleImageData = response;
+  console.log("image grayscaled");
+  fs.writeFileSync('./processed_image/grayscaled_dog3.jpg', grayscaleImageData.data);
+});
