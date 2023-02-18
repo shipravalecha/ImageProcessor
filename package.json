@@ -21,6 +21,7 @@
     "sharp": "^0.31.3",
     "swagger": "^0.7.5",
     "swagger-ui-express": "^4.6.0",
-    "yamljs": "^0.3.0"
+    "yamljs": "^0.3.0",
+    "yargs": "^17.7.0"
   }
 }
