@@ -25,9 +25,9 @@ while(i < args.length){
   const arg = args[i];
   if(arg.startsWith("--")) {
     if(arg == "--resize") {
-      let width = args[i + 1]
-      let height = args[i + 2]
-      i = i + 3
+      let width = args[i + 1];
+      let height = args[i + 2];
+      i = i + 3;
       transformArgs.push({
         type: 'resize',
         width: parseInt(width),
@@ -35,8 +35,8 @@ while(i < args.length){
       });
     }
     if(arg == "--rotate") {
-      let angle = [args[i + 1]]
-      i = i + 2
+      let angle = [args[i + 1]];
+      i = i + 2;
       transformArgs.push({
         type: 'rotate',
         angle: parseInt(angle)
@@ -46,6 +46,30 @@ while(i < args.length){
       transformArgs.push({
         type: 'flip',
       });
+      i = i + 1;
+    }
+    if(arg == "--grayscale") {
+      transformArgs.push({
+        type: 'grayscale',
+      });
+      i = i + 1;
+    }
+    if(arg == "--thumbnail") {
+      transformArgs.push({
+        type: 'thumbnail',
+      });
+      i = i + 1
+    }
+    if(arg == "--rotateLeft") {
+      transformArgs.push({
+        type: 'rotateLeft',
+      });
+      i = i + 1
+    }
+    if(arg == "--rotateRight") {
+      transformArgs.push({
+        type: 'rotateRight',
+      });
       i = i + 1
     }
   } 
@@ -54,6 +78,7 @@ while(i < args.length){
     break
   }
 }
+
 var currentImage = imageData
 var handleOperation  = () => {
   if(transformArgs.length == 0) {
@@ -63,7 +88,6 @@ var handleOperation  = () => {
     console.log("image processed");
     return 
   }
-
   var op = transformArgs.shift()
   if(op.type == "resize") {
     const request = {
@@ -80,9 +104,9 @@ var handleOperation  = () => {
         data: response.data,
         format: 'jpeg',
     };
-    console.log("handled resize")
-    currentImage = newImageData
-    handleOperation()
+    console.log("handled resize");
+    currentImage = newImageData;
+    handleOperation();
     });
   }
   if(op.type == "rotate") {
@@ -96,49 +120,86 @@ var handleOperation  = () => {
         return;
       }
       const processedImage = response;
-      console.log("rotate Angle handled")
-      currentImage = processedImage
-      handleOperation()
+      console.log("rotate Angle handled");
+      currentImage = processedImage;
+      handleOperation();
+    });
+  }
+  if(op.type == "flip") {
+    const request = {
+      image: currentImage
+    }
+    client.flip(request, function(err, response) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      const processedImage = response;
+      console.log("flip handled");
+      currentImage = processedImage;
+      handleOperation();
+    });
+  }
+  if(op.type == "grayscale") {
+    const request = {
+      image: currentImage
+    }
+    client.grayscale(request, function(err, response) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      const processedImage = response;
+      console.log("grayscale handled");
+      currentImage = processedImage;
+      handleOperation();
+    });
+  }
+  if(op.type == "rotateLeft") {
+    const request = {
+      image: currentImage
+    }
+    client.rotateLeft(request, function(err, response) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      const processedImage = response;
+      console.log("rotateLeft handled");
+      currentImage = processedImage;
+      handleOperation();
+    });
+  }
+  if(op.type == "rotateRight") {
+    const request = {
+      image: currentImage
+    }
+    client.rotateRight(request, function(err, response) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      const processedImage = response;
+      console.log("rotateRight handled");
+      currentImage = processedImage;
+      handleOperation();
+    });
+  }
+  if(op.type == "thumbnail") {
+    const request = {
+      image: currentImage
+    }
+    client.thumbnail(request, function(err, response) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      const processedImage = response;
+      console.log("thumbnail handled");
+      currentImage = processedImage;
+      handleOperation();
     });
   }
 }
 
 handleOperation();
-// for(var key of transformArgs) {
-//   if(key.type == "resize") {
-//     const request = {
-//       image: currentImage,
-//       width: key["width"],
-//       height: key["height"]
-//     }
-//     client.resize(request, function(err, response) {
-//       if (err) {
-//         console.error(err);
-//         return;
-//       }
-//       const newImageData = {
-//         data: response.data,
-//         format: 'jpeg',
-//     };
-//     console.log("in resize")
-//     console.log(newImageData)
-//       currentImage = newImageData
-//     });
-//   }
-//   if(key.type == "rotate") {
-//     const request = {
-//       image: currentImage,
-//       angle: key["angle"]
-//     }
-//     client.rotateAnyAngle(request, function(err, response) {
-//       if (err) {
-//         console.error(err);
-//         return;
-//       }
-//       const processedImage = response;
-//       console.log("in rotate angle")
-//       console.log(processedImage)
-//       currentImage = response
-//     });
-//   }
-// }
