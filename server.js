@@ -7,6 +7,7 @@ const packageDefinition = protoLoader.loadSync('image.proto');
 const imageprocessor = grpc.loadPackageDefinition(packageDefinition).imageprocessor;
 const server = new grpc.Server();
 
+// Add all the image processing services to the addService
 server.addService(imageprocessor.ImageProcessor.service, {
   flip: flip,
   resize: resize,
@@ -17,7 +18,7 @@ server.addService(imageprocessor.ImageProcessor.service, {
   rotateRight: rotateRight
 });
 
-
+// flip operation
 function flip(call, callback) {
   console.log("flip called");
   const image = call.request.image;
@@ -42,6 +43,7 @@ function flip(call, callback) {
     });
 }
 
+// resize operation
 function resize(call, callback) {
   console.log("resize called");
   const image = call.request.image;
@@ -66,6 +68,7 @@ function resize(call, callback) {
     });
 }
 
+// grayscale operation
 function grayscale(call, callback) {
   console.log("grauscale called");
   const image = call.request.image;
@@ -88,6 +91,7 @@ function grayscale(call, callback) {
     });
 }
 
+// thumbnail operation
 function thumbnail(call, callback) {
   console.log("thumbnail called");
   const image = call.request.image;
@@ -112,6 +116,7 @@ function thumbnail(call, callback) {
     });
 }
 
+// rotateAnyAngle operation
 function rotateAnyAngle(call, callback) {
   console.log("rotate any angle called");
   const image = call.request.image;
@@ -135,6 +140,7 @@ function rotateAnyAngle(call, callback) {
     });
 }
 
+// rotateLeft operation
 function rotateLeft(call, callback) {
   console.log("rotateLeft called");
   const image = call.request.image;
@@ -158,6 +164,7 @@ function rotateLeft(call, callback) {
     });
 }
 
+// rotateRight operation
 function rotateRight(call, callback) {
   console.log("rotateRight called");
   const image = call.request.image;
@@ -181,6 +188,7 @@ function rotateRight(call, callback) {
     });
 }
 
+// start server running at localhost at port 2001
 server.bind('127.0.0.1:2001', grpc.ServerCredentials.createInsecure());
 server.start();
 console.log("Server started, listening: 127.0.0.1:2001");
