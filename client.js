@@ -6,119 +6,139 @@ const packageDefinition = protoLoader.loadSync('image.proto');
 const imageprocessor = grpc.loadPackageDefinition(packageDefinition).imageprocessor;
 const client = new imageprocessor.ImageProcessor('localhost:2001', grpc.credentials.createInsecure());
 
+if (process.argv.length < 4) {
+    console.error('Usage: node server.js <image_path> <transform_operation> [transform_params]');
+    process.exit(1);
+}
+
+const args = process.argv.slice(2);
+const imagePath = args[0];
+const transformArgs = [];
+
 const imageData = {
-  data: fs.readFileSync('./images/dog3.jpeg'),
-  format: 'jpeg',
+    data: fs.readFileSync(imagePath),
+    format: 'jpeg',
 };
 
-const request = {
-  image: imageData,
-  horizontal: true,
-  vertical: false
-};
-
-client.flip(request, function(err, response) {
-  if (err) {
-    console.error(err);
-    return;
+let i = 1
+while(i < args.length){
+  const arg = args[i];
+  if(arg.startsWith("--")) {
+    if(arg == "--resize") {
+      let width = args[i + 1]
+      let height = args[i + 2]
+      i = i + 3
+      transformArgs.push({
+        type: 'resize',
+        width: parseInt(width),
+        height: parseInt(height)
+      });
+    }
+    if(arg == "--rotate") {
+      let angle = [args[i + 1]]
+      i = i + 2
+      transformArgs.push({
+        type: 'rotate',
+        angle: parseInt(angle)
+      });
+    }
+    if(arg == "--flip") {
+      transformArgs.push({
+        type: 'flip',
+      });
+      i = i + 1
+    }
+  } 
+  else {
+    console.error("Invalid argument!!")
+    break
   }
-  const flippedImageData = response;
-  console.log("image processed");
-  fs.writeFileSync('./processed_image/flipped_dog3.jpg', flippedImageData.data);
-});
-
-const resizeRequest = {
-  image: imageData,
-  width: 350,
-  height: 260
-};
-
-client.resize(resizeRequest, function(err, response) {
-  if (err) {
-    console.error(err);
-    return;
+}
+var currentImage = imageData
+var handleOperation  = () => {
+  if(transformArgs.length == 0) {
+    // processed everything
+    const outputImagePath = '/Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/processedImages/output.jpg'
+    fs.writeFileSync(outputImagePath, currentImage.data);
+    console.log("image processed");
+    return 
   }
-  const resizedImageData = response;
-  console.log("image resized");
-  fs.writeFileSync('./processed_image/resized_dog3.jpg', resizedImageData.data);
-});
 
-const grayscaleRequest = {
-  image: imageData
-};
-
-client.grayscale(grayscaleRequest, function(err, response) {
-  if (err) {
-    console.error(err);
-    return;
+  var op = transformArgs.shift()
+  if(op.type == "resize") {
+    const request = {
+      image: currentImage,
+      width: op["width"],
+      height: op["height"]
+    }
+    client.resize(request, function(err, response) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      const newImageData = {
+        data: response.data,
+        format: 'jpeg',
+    };
+    console.log("handled resize")
+    currentImage = newImageData
+    handleOperation()
+    });
   }
-  const grayscaleImageData = response;
-  console.log("image grayscaled");
-  fs.writeFileSync('./processed_image/grayscaled_dog3.jpg', grayscaleImageData.data);
-});
-
-const thumbnailRequest = {
-  image: imageData
-};
-
-client.thumbnail(thumbnailRequest, function(err, response) {
-  if (err) {
-    console.error(err);
-    return;
+  if(op.type == "rotate") {
+    const request = {
+      image: currentImage,
+      angle: op["angle"]
+    }
+    client.rotateAnyAngle(request, function(err, response) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      const processedImage = response;
+      console.log("rotate Angle handled")
+      currentImage = processedImage
+      handleOperation()
+    });
   }
-  const thumbnailImageData = response;
-  console.log("image thumbnail");
-  fs.writeFileSync('./processed_image/thumbnail_dog3.jpg', thumbnailImageData.data);
-});
+}
 
-const rotateAnyAngleRequest = {
-  image: imageData,
-  angle: -90
-};
-
-client.rotateAnyAngle(rotateAnyAngleRequest, function(err, response) {
-  if (err) {
-    console.error(err);
-    return;
-  }
-  console.log("image rotated to: " + rotateAnyAngleRequest.angle);
-  const rotateImageData = response;
-  fs.writeFileSync('./processed_image/rotated_Any_dog3.jpg', rotateImageData.data);
-});
-
-// const newData = {
-//   data: fs.readFileSync('./images/rotatedLeft.jpg'),
-//   format: 'jpeg',
-// };
-
-const rotateLeftRequest = {
-  image: imageData,
-};
-
-client.rotateLeft(rotateLeftRequest, function(err, response) {
-  if (err) {
-    console.error(err);
-    return;
-  }
-  console.log("image rotated Left");
-  const rotateImageData = response;
-  fs.writeFileSync('./processed_image/rotatedLeft.jpg', rotateImageData.data);
-});
-
-const newData = {
-  data: fs.readFileSync('./images/rotatedLeft.jpg'),
-  format: 'jpeg',
-};
-const rotateRightRequest = {
-  image: newData,
-};
-
-client.rotateRight(rotateRightRequest, function(err, response) {
-  if (err) {
-    console.error(err);
-    return;
-  }
-  console.log("image rotated Right");
-  const rotateImageData = response;
-  fs.writeFileSync('./processed_image/rotatedRight.jpg', rotateImageData.data);
-});
+handleOperation();
+// for(var key of transformArgs) {
+//   if(key.type == "resize") {
+//     const request = {
+//       image: currentImage,
+//       width: key["width"],
+//       height: key["height"]
+//     }
+//     client.resize(request, function(err, response) {
+//       if (err) {
+//         console.error(err);
+//         return;
+//       }
+//       const newImageData = {
+//         data: response.data,
+//         format: 'jpeg',
+//     };
+//     console.log("in resize")
+//     console.log(newImageData)
+//       currentImage = newImageData
+//     });
+//   }
+//   if(key.type == "rotate") {
+//     const request = {
+//       image: currentImage,
+//       angle: key["angle"]
+//     }
+//     client.rotateAnyAngle(request, function(err, response) {
+//       if (err) {
+//         console.error(err);
+//         return;
+//       }
+//       const processedImage = response;
+//       console.log("in rotate angle")
+//       console.log(processedImage)
+//       currentImage = response
+//     });
+//   }
+// }
