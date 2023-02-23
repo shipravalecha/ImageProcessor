@@ -6,6 +6,7 @@ const packageDefinition = protoLoader.loadSync('image.proto');
 const imageprocessor = grpc.loadPackageDefinition(packageDefinition).imageprocessor;
 const client = new imageprocessor.ImageProcessor('localhost:2001', grpc.credentials.createInsecure());
 
+// throw error when there is incomplete command and command line arguments are less than 4
 if (process.argv.length < 4) {
     console.error('Usage: node server.js <image_path> <transform_operation> [transform_params]');
     process.exit(1);
@@ -15,6 +16,7 @@ const args = process.argv.slice(2);
 const imagePath = args[0];
 const transformArgs = [];
 
+// reading the input image as a byte stream
 const imageData = {
     data: fs.readFileSync(imagePath),
     format: 'jpeg',
@@ -74,9 +76,20 @@ while(i < args.length){
     }
   } 
   else {
-    console.error("Invalid argument!!")
-    break
+    console.error("Invalid argument!!! Provide argument with that starts with --")
+    process.exit(1);
   }
+}
+
+let countThumbnail = 0;
+for (let op of transformArgs) {
+  if (op.type == 'thumbnail') countThumbnail++;
+}
+
+// throw error when there is more than one thumbnail operation requested by the user
+if (countThumbnail > 1) {
+  console.error('Provide valid operation. Give just one thumbnail operation');
+  process.exit(1);
 }
 
 var currentImage = imageData

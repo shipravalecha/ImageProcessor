@@ -10,10 +10,12 @@ Resize
 Generate a thumbnail
 Rotate left
 Rotate right
- 
+
 The user will upload the image or input the image to the Image processor application via client interface. Along with the image, a user will also specify the operation/ combination of operations he wants the application to apply on the input image and output the resulting image to the user. So the application is responsible to take the input image and return the processed image to the user.
 
-I use RPC style for this application, wherein client makes request for the specific operation and that operation is implemented on the server. For example, below is the code implementation on client and server side for resize operation using sharp node module:
+I use RPC style for this application, wherein client makes request for the specific operation and that operation is implemented on the server. I use gRPC, it is a open source google RPC framework used to implement RPC calls and fit well with node.js.
+
+For example, below is the code implementation on client and server side for resize operation using sharp node module:
 
 Client implementation:
 
@@ -51,13 +53,28 @@ Below are the commands to run the application:
 1. To compile .proto file: grpc_tools_node_protoc --js_out=import_style=commonjs,binary:./ --grpc_out=./ --plugin=protoc-gen-grpc=`which grpc_tools_node_protoc_plugin` image.proto
 
 2. To start the server: node server.js
-It will start the server and the server will be ready to listen to the client requests.
+It will start the server and the server will be ready to listen to the client requests. It will keep on listening to the requests until the server is stopped.
 
 3. To give input request: node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --resize 100 100
-It has the input image path from the local directory and operations to be performed on the image
+It has the input image path from the local directory and operations to be performed on the image.
 
+Sample calls:
 
+node client.js
+node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg 
+-- it gives error
 
+node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --thumbnail --thumbnail
+-- it gives error because more than one thumbnail operation is provided by the client.
 
+node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --rotateLeft rotate
+-- it gives error as Invalid argument!!! Provide argument with that starts with --
 
+node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --grayscale --thumbnail
+
+node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --grayscale --flip
+
+node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --resize 100 100 --rotateRight
+
+node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --rotateLeft --rotateRight
 

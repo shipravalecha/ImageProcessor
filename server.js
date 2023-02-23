@@ -20,7 +20,7 @@ server.addService(imageprocessor.ImageProcessor.service, {
 
 // flip operation
 function flip(call, callback) {
-  console.log("flip called");
+  console.log("FLIP called");
   const image = call.request.image;
   const horizontal = call.request.horizontal;
   const vertical = call.request.vertical;
@@ -45,7 +45,7 @@ function flip(call, callback) {
 
 // resize operation
 function resize(call, callback) {
-  console.log("resize called");
+  console.log("RESIZE called");
   const image = call.request.image;
   const width = call.request.width.low;
   const height = call.request.height.low;
@@ -70,7 +70,7 @@ function resize(call, callback) {
 
 // grayscale operation
 function grayscale(call, callback) {
-  console.log("grauscale called");
+  console.log("GRAYSCALE called");
   const image = call.request.image;
   sharp(image.data)
     .grayscale()
@@ -93,7 +93,7 @@ function grayscale(call, callback) {
 
 // thumbnail operation
 function thumbnail(call, callback) {
-  console.log("thumbnail called");
+  console.log("THUMBNAIL called");
   const image = call.request.image;
   const width = 300;
   const height = 300;
@@ -118,7 +118,7 @@ function thumbnail(call, callback) {
 
 // rotateAnyAngle operation
 function rotateAnyAngle(call, callback) {
-  console.log("rotate any angle called");
+  console.log("ROTATE ANY ANGLE called");
   const image = call.request.image;
   const angle = call.request.angle.low;
   sharp(image.data)
@@ -142,7 +142,7 @@ function rotateAnyAngle(call, callback) {
 
 // rotateLeft operation
 function rotateLeft(call, callback) {
-  console.log("rotateLeft called");
+  console.log("ROTATELEFT called");
   const image = call.request.image;
   const angle = -90;
   sharp(image.data)
@@ -166,7 +166,7 @@ function rotateLeft(call, callback) {
 
 // rotateRight operation
 function rotateRight(call, callback) {
-  console.log("rotateRight called");
+  console.log("ROTATERIGHT called");
   const image = call.request.image;
   const angle = +90;
   sharp(image.data)
