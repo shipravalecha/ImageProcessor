@@ -35,6 +35,7 @@ const imageData = {
     format: 'jpeg',
 };
 
+// Create a dictionary to collect the list of operations to be performed on the image
 let i = 1
 while(i < args.length){
   const arg = args[i];
@@ -105,6 +106,7 @@ if (countThumbnail > 1) {
   process.exit(1);
 }
 
+// handle operation is the function that calls appropriate image operations implemented on the server
 var currentImage = imageData
 var handleOperation  = () => {
   if(transformArgs.length == 0) {
@@ -229,8 +231,10 @@ var handleOperation  = () => {
   }
 }
 
+// call handleOperation function
 handleOperation();
 
+// thumbnailReturn is the function that just returns the thumbnail image if requested by the client
 var thumbnailReturn = (processedImage) => {
   const outputImagePath = '/Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/processedImages/thumbnail_output.jpg'
     fs.writeFileSync(outputImagePath, processedImage.data);
