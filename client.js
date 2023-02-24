@@ -1,3 +1,16 @@
+/**
+ * Version: 1.0
+ * Author: Shipra
+ * Course: CPSC 5200 Software Architecture and Design
+ * Project: Image processor using sharp, an image processing node module
+ * Description: This file takes the client input which contains the image path from the local directory or from the file 
+ * within the project. It reads the input image in the form of bytes and calls the appropriate image operations that are 
+ * implemented on the server using gRPC. It also returns the final output image back to the user by writing the image using 
+ * byte format on the specified destination folder. It is like a proxy layer between client and server so that client needs not to interact 
+ * directly with the server and it also ensures the abstraction from the client.
+ * 
+ */
+
 const grpc = require('grpc');
 const protoLoader = require('@grpc/proto-loader');
 const fs = require('fs');

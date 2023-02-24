@@ -1,3 +1,13 @@
+/**
+ * Version: 1.0
+ * Author: Shipra
+ * Course: CPSC 5200 Software Architecture and Design
+ * Project: Image processor using sharp, an image processing node module
+ * Description: This file has all the image operations implemented using sharp node module. It takes the client inputs and 
+ * perform approprite operations on the image and return the processed image in the callback functions back to the client.
+ * The server runs on the localhost at port 2001 and keeps on listening to the client requests.
+ */
+
 const grpc = require('grpc');
 const protoLoader = require('@grpc/proto-loader');
 const sharp = require('sharp');
