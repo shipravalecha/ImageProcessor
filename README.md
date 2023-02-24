@@ -78,3 +78,8 @@ node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/image
 
 node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --rotateLeft --rotateRight
 
+// 2 images are generated (when thumbnail operation is followed by some other operations)
+node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --thumbnail --grayscale
+
+node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --flip --thumbnail --grayscale
+

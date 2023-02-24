@@ -99,7 +99,7 @@ var handleOperation  = () => {
     const outputImagePath = '/Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/processedImages/output.jpg'
     fs.writeFileSync(outputImagePath, currentImage.data);
     console.log("image processed");
-    return 
+    return;
   }
   var op = transformArgs.shift()
   if(op.type == "resize") {
@@ -209,10 +209,18 @@ var handleOperation  = () => {
       }
       const processedImage = response;
       console.log("thumbnail handled");
-      currentImage = processedImage;
+      thumbnailReturn(processedImage);
+      // currentImage = processedImage;
       handleOperation();
     });
   }
 }
 
 handleOperation();
+
+var thumbnailReturn = (processedImage) => {
+  const outputImagePath = '/Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/processedImages/thumbnail_output.jpg'
+    fs.writeFileSync(outputImagePath, processedImage.data);
+    console.log("thumbnail image processed");
+    return;
+}
