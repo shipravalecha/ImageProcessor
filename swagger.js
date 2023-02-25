@@ -2,10 +2,10 @@ module.exports = {
   "swagger": "2.0",
   "info": {
     "title": "Image Processing API",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "description": "API for processing images using gRPC."
   },
-  "basePath": "/",
+  "basePath": "/api",
   "schemes": [
     "https"
   ],
@@ -37,7 +37,26 @@ module.exports = {
             "description": "Resize request message.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ResizeRequest"
+              "type": "object",
+              "properties": {
+                "image": {
+                  "type": "string",
+                  "description": "Path to the image file"
+                },
+                "resizeWidth": {
+                  "type": "string",
+                  "description": "width for the image"
+                },
+                "resizeHeight": {
+                  "type": "string",
+                  "description": "height for the image"
+                }
+              },
+              "required": [
+                "image",
+                "resizeWidth",
+                "resizeHeight"
+              ]
             }
           }
         ],
@@ -45,7 +64,17 @@ module.exports = {
           "200": {
             "description": "Image resized successfully.",
             "schema": {
-              "$ref": "#/definitions/ResizeResponse"
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "string",
+                  "description": "Base64-encoded image data"
+                },
+                "format": {
+                  "type": "string",
+                  "description": "Image format (e.g. jpeg)"
+                }
+              }
             }
           },
           "400": {
@@ -81,7 +110,21 @@ module.exports = {
             "description": "Rotate request message.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/RotateRequest"
+              "type": "object",
+              "properties": {
+                "image": {
+                  "type": "string",
+                  "description": "Path to the image file"
+                },
+                "rotateAngle": {
+                  "type": "string",
+                  "description": "angle for the image"
+                }
+              },
+              "required": [
+                "image",
+                "rotateAngle"
+              ]
             }
           }
         ],
@@ -89,7 +132,332 @@ module.exports = {
           "200": {
             "description": "Image rotated successfully.",
             "schema": {
-              "$ref": "#/definitions/RotateResponse"
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "string",
+                  "description": "Base64-encoded image data"
+                },
+                "format": {
+                  "type": "string",
+                  "description": "Image format (e.g. jpeg)"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request format."
+          },
+          "404": {
+            "description": "Image not found."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/imageprocessor.ImageProcessor/flip": {
+      "post": {
+        "tags": [
+          "Image Processing"
+        ],
+        "summary": "Flip an image.",
+        "description": "Flip an image.",
+        "operationId": "flipImage",
+        "consumes": [
+          "application/grpc"
+        ],
+        "produces": [
+          "application/grpc"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "description": "Flip request message.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "image": {
+                  "type": "string",
+                  "description": "Path to the image file"
+                }
+              },
+              "required": [
+                "image"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Image flipped successfully.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "string",
+                  "description": "Base64-encoded image data"
+                },
+                "format": {
+                  "type": "string",
+                  "description": "Image format (e.g. jpeg)"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request format."
+          },
+          "404": {
+            "description": "Image not found."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/imageprocessor.ImageProcessor/grayscale": {
+      "post": {
+        "tags": [
+          "Image Processing"
+        ],
+        "summary": "Grayscale image.",
+        "description": "Grayscale image.",
+        "operationId": "GrayscaleImage",
+        "consumes": [
+          "application/grpc"
+        ],
+        "produces": [
+          "application/grpc"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "description": "Grayscale request message.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "image": {
+                  "type": "string",
+                  "description": "Path to the image file"
+                }
+              },
+              "required": [
+                "image"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Image Grayscaled successfully.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "string",
+                  "description": "Base64-encoded image data"
+                },
+                "format": {
+                  "type": "string",
+                  "description": "Image format (e.g. jpeg)"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request format."
+          },
+          "404": {
+            "description": "Image not found."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/imageprocessor.ImageProcessor/thumbnail": {
+      "post": {
+        "tags": [
+          "Image Processing"
+        ],
+        "summary": "Thumbnail image.",
+        "description": "Thumbnail image.",
+        "operationId": "ThumbnailImage",
+        "consumes": [
+          "application/grpc"
+        ],
+        "produces": [
+          "application/grpc"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "description": "Thumbnail request message.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "image": {
+                  "type": "string",
+                  "description": "Path to the image file"
+                }
+              },
+              "required": [
+                "image"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Image thumbnail successfully.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "string",
+                  "description": "Base64-encoded image data"
+                },
+                "format": {
+                  "type": "string",
+                  "description": "Image format (e.g. jpeg)"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request format."
+          },
+          "404": {
+            "description": "Image not found."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/imageprocessor.ImageProcessor/rotateLeft": {
+      "post": {
+        "tags": [
+          "Image Processing"
+        ],
+        "summary": "RotateLeft image.",
+        "description": "RotateLeft image.",
+        "operationId": "RotateLeftImage",
+        "consumes": [
+          "application/grpc"
+        ],
+        "produces": [
+          "application/grpc"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "description": "rotateLeft request message.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "image": {
+                  "type": "string",
+                  "description": "Path to the image file"
+                }
+              },
+              "required": [
+                "image"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Image rotated Left successfully.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "string",
+                  "description": "Base64-encoded image data"
+                },
+                "format": {
+                  "type": "string",
+                  "description": "Image format (e.g. jpeg)"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request format."
+          },
+          "404": {
+            "description": "Image not found."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/imageprocessor.ImageProcessor/rotateRight": {
+      "post": {
+        "tags": [
+          "Image Processing"
+        ],
+        "summary": "RotateRight image.",
+        "description": "RotateRight image.",
+        "operationId": "RotateRightImage",
+        "consumes": [
+          "application/grpc"
+        ],
+        "produces": [
+          "application/grpc"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "description": "rotateRight request message.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "image": {
+                  "type": "string",
+                  "description": "Path to the image file"
+                }
+              },
+              "required": [
+                "image"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Image rotated Right successfully.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "string",
+                  "description": "Base64-encoded image data"
+                },
+                "format": {
+                  "type": "string",
+                  "description": "Image format (e.g. jpeg)"
+                }
+              }
             }
           },
           "400": {
