@@ -1,86 +1,108 @@
 module.exports = {
-    "openapi": "3.0.0",
-    "info": {
-      "title": "Image Processor",
-      "description": "A simple image processor API",
-      "version": "0.1.0"
+  "swagger": "2.0",
+  "info": {
+    "title": "Image Processing API",
+    "version": "0.1.0",
+    "description": "API for processing images using gRPC."
+  },
+  "basePath": "/",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/grpc"
+  ],
+  "produces": [
+    "application/grpc"
+  ],
+  "paths": {
+    "/imageprocessor.ImageProcessor/resize": {
+      "post": {
+        "tags": [
+          "Image Processing"
+        ],
+        "summary": "Resize an image.",
+        "description": "Resize an image to a specified width and height.",
+        "operationId": "resizeImage",
+        "consumes": [
+          "application/grpc"
+        ],
+        "produces": [
+          "application/grpc"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "description": "Resize request message.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ResizeRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Image resized successfully.",
+            "schema": {
+              "$ref": "#/definitions/ResizeResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid request format."
+          },
+          "404": {
+            "description": "Image not found."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
     },
-    "paths": {
-      "/upload": {
-        "post": {
-          "description": "Returns a transformed image",
-          "parameters": [
-            {
-              "in": "formData",
-              "name": "image",
-              "type": "file",
-              "required": true,
-              "description": "Input image"
-            },
-            {
-              "in": "path",
-              "name": "flip horizontal",
-              "type": "file",
-              "description": "Input image is flipped horizontally"
-            },
-            {
-              "in": "path",
-              "name": "flip vertical",
-              "type": "file",
-              "description": "Input image is flipped vertically"
-            },
-            {
-              "in": "rotate",
-              "name": "rotate right",
-              "type": "file",
-              "description": "Input image is rotated in right direction"
-            },
-            {
-              "in": "rotate",
-              "name": "rotate left",
-              "type": "file",
-              "description": "Input image is rotated in left direction"
-            },
-            {
-              "in": "grayscale",
-              "name": "grayscale",
-              "type": "file",
-              "description": "Input image is converted to grayscale"
-            },
-            {
-              "in": "thumbnail",
-              "name": "thumbnail",
-              "type": "file",
-              "description": "Thumbnail is generated from the input image"
-            },
-            {
-              "in": "resize",
-              "name": "resize",
-              "type": "file",
-              "description": "Input image is resized"
+    "/imageprocessor.ImageProcessor/rotateAnyAngle": {
+      "post": {
+        "tags": [
+          "Image Processing"
+        ],
+        "summary": "Rotate an image.",
+        "description": "Rotate an image by a specified angle.",
+        "operationId": "rotateImage",
+        "consumes": [
+          "application/grpc"
+        ],
+        "produces": [
+          "application/grpc"
+        ],
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "description": "Rotate request message.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RotateRequest"
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "Success",
-              "schema": {
-                "type": "string"
-              }
-            },
-            "400": {
-              "description": "Some parameters missing",
-              "schema": {
-                "type": "string"
-              }
-            },
-            "500": {
-              "description": "Some server failure",
-              "schema": {
-                "type": "string"
-              }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Image rotated successfully.",
+            "schema": {
+              "$ref": "#/definitions/RotateResponse"
             }
+          },
+          "400": {
+            "description": "Invalid request format."
+          },
+          "404": {
+            "description": "Image not found."
+          },
+          "500": {
+            "description": "Internal server error."
           }
         }
       }
     }
   }
+}
