@@ -1,9 +1,9 @@
 swagger: '2.0'
 info:
   title: Image Processing API
-  version: 0.1.0
+  version: 1.0.0
   description: API for processing images using gRPC.
-basePath: "/"
+basePath: /api
 schemes:
 - https
 consumes:
@@ -28,12 +28,33 @@ paths:
         description: Resize request message.
         required: true
         schema:
-          "$ref": "/Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg"
+          type: object
+          properties:
+            image:
+              type: string
+              description: Path to the image file
+            resizeWidth:
+              type: string
+              description: width for the image
+            resizeHeight:
+              type: string
+              description: height for the image
+          required:
+            - image
+            - resizeWidth
+            - resizeHeight
       responses:
         '200':
           description: Image resized successfully.
           schema:
-            "$ref": "/Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/processedImages/output.jpg"
+            type: object
+            properties:
+              data:
+                type: string
+                description: Base64-encoded image data
+              format:
+                type: string
+                description: Image format (e.g. jpeg)
         '400':
           description: Invalid request format.
         '404':
@@ -57,12 +78,29 @@ paths:
         description: Rotate request message.
         required: true
         schema:
-          "$ref": "/Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg"
+          type: object
+          properties:
+            image:
+              type: string
+              description: Path to the image file
+            rotateAngle:
+              type: string
+              description: angle for the image
+          required:
+            - image
+            - rotateAngle
       responses:
         '200':
           description: Image rotated successfully.
           schema:
-            "$ref": "/Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/processedImages/output.jpg"
+            type: object
+            properties:
+              data:
+                type: string
+                description: Base64-encoded image data
+              format:
+                type: string
+                description: Image format (e.g. jpeg)
         '400':
           description: Invalid request format.
         '404':
