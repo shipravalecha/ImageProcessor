@@ -90,9 +90,12 @@ the application in the docker.
 Docker commands:
 
 // build command
-docker build -t image_processor -f '/Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/imageprocessor/DockerFile' .
+
+docker build -t client-image -f '/Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/imageprocessor/DockerFile.client' .
+docker build -t server-image -f '/Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/imageprocessor/DockerFile.server' .
 
 // run command
+
+docker run server-image node server.js
+
 docker run -v /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images:/app/images image_processor node client.js /app/images/dog1.jpeg --grayscale
-
-

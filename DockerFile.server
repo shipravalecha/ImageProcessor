@@ -2,11 +2,10 @@ FROM node:14
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY server.js package.json package-lock.json /app/
+
 RUN npm install
 
 COPY . .
-
-EXPOSE $PORT
 
 CMD [ "npm", "start" ]

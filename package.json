@@ -5,7 +5,7 @@
   "main": "client.js",
   "scripts": {
     "test": "npm test",
-    "start": "node client.js"
+    "start": "pm2 start server.js && node client.js"
   },
   "author": "Shipra",
   "license": "ISC",
