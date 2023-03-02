@@ -17,7 +17,7 @@ const fs = require('fs');
 
 const packageDefinition = protoLoader.loadSync('image.proto');
 const imageprocessor = grpc.loadPackageDefinition(packageDefinition).imageprocessor;
-const client = new imageprocessor.ImageProcessor('localhost:2001', grpc.credentials.createInsecure());
+const client = new imageprocessor.ImageProcessor('127.0.0.1:2001', grpc.credentials.createInsecure());
 
 // throw error when there is incomplete command and command line arguments are less than 4
 if (process.argv.length < 4) {

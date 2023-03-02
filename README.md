@@ -98,4 +98,10 @@ docker build -t server-image -f '/Users/shipravalecha/Desktop/SeattleUniversity/
 
 docker run server-image node server.js
 
-docker run -v /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images:/app/images image_processor node client.js /app/images/dog1.jpeg --grayscale
+docker run -v /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images:/app/images client-image node client.js /app/images/dog1.jpeg --grayscale
+
+docker network create image_network
+docker run -d --name server-container --network=image_network server-image
+docker run -v /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images:/app/images --network=image_network client-image node client.js /app/images/dog1.jpeg --grayscale
+
+
