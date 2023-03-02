@@ -83,3 +83,16 @@ node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/image
 
 node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --flip --thumbnail --grayscale
 
+
+I have containerized this application to make it cloud-hosted. I have created DockerFile. Below are the commands to build and run
+the application in the docker.
+
+Docker commands:
+
+// build command
+docker build -t image_processor -f '/Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/imageprocessor/DockerFile' .
+
+// run command
+docker run -v /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images:/app/images image_processor node client.js /app/images/dog1.jpeg --grayscale
+
+
