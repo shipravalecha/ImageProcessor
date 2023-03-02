@@ -2,10 +2,10 @@
   "name": "imageprocessor",
   "version": "1.0.0",
   "description": "ImageProcessor",
-  "main": "./src/App.js",
+  "main": "client.js",
   "scripts": {
     "test": "npm test",
-    "start": "node ./src/App.js"
+    "start": "node client.js"
   },
   "author": "Shipra",
   "license": "ISC",
