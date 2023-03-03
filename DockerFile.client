@@ -1,11 +1,12 @@
 FROM node:14
 
-WORKDIR /app
+RUN mkdir -p /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/processedImages
+WORKDIR /usr/src/app
 
-COPY client.js package.json package-lock.json /app/
+COPY package*.json ./
 
 RUN npm install
 
 COPY . .
 
-CMD ["node", "client.js"]
+CMD [ "node", "client.js" ]

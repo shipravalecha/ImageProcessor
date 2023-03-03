@@ -17,7 +17,7 @@ I use RPC style for this application, wherein client makes request for the speci
 
 For example, below is the code implementation on client and server side for resize operation using sharp node module:
 
-Client implementation:
+# Client implementation:
 
 client.resize(request, function(error, response) {
   if (error) {
@@ -29,7 +29,7 @@ client.resize(request, function(error, response) {
 
 The request object can have the input image or any parameters/ arguments client has to send to the server.
 
-Server implementation:
+# Server implementation:
 
 function imageProcess(call, callback) {
   sharp(call.request.image)
@@ -40,7 +40,7 @@ function imageProcess(call, callback) {
     .catch(error);
 }
 
-Below are the files that are part of the application:
+# Below are the files that are part of the application:
 
 1. Image.proto: This file contains the format of RPC functions, the input and output of the functions. It represents the structure of the data. To compile the .proto file, protoc compiler is used that generates the code to read and write the data. It is similar to .json file that represents the structure of the data. After compiling the file, image_pb.js and image_grpc_pb.js files are generated.
 2. Client.js: This is the intermediate layer between the client, who makes the requestand the server, that has all image transformation operations defined. Client.js file is implemented to create a proxy layer between the client and the server. Also, client instead of contacting the server directly, it requests the server via proxy layer.
@@ -58,17 +58,17 @@ It will start the server and the server will be ready to listen to the client re
 3. To give input request: node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --resize 100 100
 It has the input image path from the local directory and operations to be performed on the image.
 
-Sample calls:
+# Sample calls:
 
 node client.js
 node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg 
--- it gives error
+# it gives error
 
 node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --thumbnail --thumbnail
--- it gives error because more than one thumbnail operation is provided by the client.
+# it gives error because more than one thumbnail operation is provided by the client.
 
 node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --rotateLeft rotate
--- it gives error as Invalid argument!!! Provide argument with that starts with --
+# it gives error as Invalid argument!!! Provide argument with that starts with --
 
 node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --grayscale --thumbnail
 
@@ -78,30 +78,35 @@ node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/image
 
 node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --rotateLeft --rotateRight
 
-// 2 images are generated (when thumbnail operation is followed by some other operations)
+# 2 images are generated (when thumbnail operation is followed by some other operations)
 node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --thumbnail --grayscale
 
 node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --flip --thumbnail --grayscale
 
+# Cloud-hosted: 
+I made this application cloud-hosted by containerizing the application using dockers. I made 2 containers, one for each client and server. Docker allows the developers to package their application and its dependencies into a container that can run on any system, regardless of the underlying infrastructure. It allows developers to create and deploy applications in a portable way.
 
-I have containerized this application to make it cloud-hosted. I have created DockerFile. Below are the commands to build and run
-the application in the docker.
+# Docker commands:
 
-Docker commands:
-
-// build command
+# build command
 
 docker build -t client-image -f '/Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/imageprocessor/DockerFile.client' .
 docker build -t server-image -f '/Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/imageprocessor/DockerFile.server' .
 
-// run command
+# run command
 
-docker run server-image node server.js
+docker run -p 2001:2001 -d server-image
+docker run -p 2001:2001 -d client-image node client.js /app/images/dog1.jpeg --grayscale
 
-docker run -v /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images:/app/images client-image node client.js /app/images/dog1.jpeg --grayscale
+# Get container ID
+docker ps
 
-docker network create image_network
-docker run -d --name server-container --network=image_network server-image
-docker run -v /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images:/app/images --network=image_network client-image node client.js /app/images/dog1.jpeg --grayscale
+# Print logs
+docker logs <container id>
 
+# Execute the container
+docker exec -it <container id> /bin/bash
 
+Run commands:
+node server.js
+node client.js images/dog1.jpeg --grayscale
