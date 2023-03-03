@@ -50,11 +50,11 @@ while(i < args.length){
         height: parseInt(height)
       });
     }
-    if(arg == "--rotate") {
+    if(arg == "--rotateAnyAngle") {
       let angle = [args[i + 1]];
       i = i + 2;
       transformArgs.push({
-        type: 'rotate',
+        type: 'rotateAnyAngle',
         angle: parseInt(angle)
       });
     }
@@ -111,9 +111,10 @@ var currentImage = imageData
 var handleOperation  = () => {
   if(transformArgs.length == 0) {
     // processed everything
+    console.log("Generating final output image");
     const outputImagePath = '/Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/processedImages/output.jpg'
     fs.writeFileSync(outputImagePath, currentImage.data);
-    console.log("image processed");
+    console.log("image processing completed");
     return;
   }
   var op = transformArgs.shift()
@@ -137,7 +138,7 @@ var handleOperation  = () => {
     handleOperation();
     });
   }
-  if(op.type == "rotate") {
+  if(op.type == "rotateAnyAngle") {
     const request = {
       image: currentImage,
       angle: op["angle"]
@@ -224,8 +225,11 @@ var handleOperation  = () => {
       }
       const processedImage = response;
       console.log("thumbnail handled");
-      thumbnailReturn(processedImage);
-      // currentImage = processedImage;
+      if(transformArgs.length != 0) {
+        thumbnailReturn(processedImage);
+      } else {
+        currentImage = processedImage;
+      }
       handleOperation();
     });
   }

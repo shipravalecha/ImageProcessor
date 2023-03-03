@@ -60,30 +60,38 @@ It will start the server and the server will be ready to listen to the client re
 3. To give input request: node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --resize 100 100
 It has the input image path from the local directory and operations to be performed on the image.
 
-# Sample calls:
+# Sample calls for demo:
 
+# it gives error
 node client.js
 node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg 
-# it gives error
 
-node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --thumbnail --thumbnail
 # it gives error because more than one thumbnail operation is provided by the client.
+node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --thumbnail --thumbnail
 
-node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --rotateLeft rotate
 # it gives error as Invalid argument!!! Provide argument with that starts with --
+node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --rotateLeft rotateAnyAngle
 
-node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --grayscale --thumbnail
+# output.jpg is generated
+node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --grayscale --rotateLeft
 
 node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --grayscale --flip
 
+node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --rotateAnyAngle 30
+
 node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --resize 100 100 --rotateRight
 
+node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --resize 100 100 --rotateRight --rotateLeft
+
 node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --rotateLeft --rotateRight
+
+# if thumbnail is the last operation, 1 output image is generated
+node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --rotateAnyAngle 30 --grayscale --thumbnail
 
 # 2 images are generated (when thumbnail operation is followed by some other operations)
 node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --thumbnail --grayscale
 
-node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --flip --thumbnail --grayscale
+node client.js /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/images/dog1.jpeg --rotateLeft --thumbnail --grayscale
 
 # Cloud-hosted: 
 I made this application cloud-hosted by containerizing the application using dockers. I made 2 containers, one for each client and server. Docker allows the developers to package their application and its dependencies into a container that can run on any system, regardless of the underlying infrastructure. It allows developers to create and deploy applications in a portable way.
