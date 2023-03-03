@@ -47,6 +47,8 @@ function imageProcess(call, callback) {
 3. Server.js: It has the definitions of all the image transformation operations like flip, resize, grayscale etc.
 4. /images: It stores the input images and input request can be given to the server using the image from this directory.
 5. /processed_image: It stores the output images after the transformation.
+6. DockerFile.client: It is the container that contains the client-image.
+7. DockerFile.server: It is the container that contains the server-image.
 
 Below are the commands to run the application:
 
@@ -106,6 +108,7 @@ docker logs <container id>
 
 # Execute the container
 docker exec -it <container id> /bin/bash
+// container ID: 4e9a386aa318
 
 Run commands:
 node server.js
