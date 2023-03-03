@@ -112,4 +112,7 @@ docker exec -it <container id> /bin/bash
 
 Run commands:
 node server.js
-node client.js images/dog1.jpeg --grayscale
+node client.js images/dog1.jpeg --thumbnail --grayscale
+
+To access the image in a container:
+cd /Users/shipravalecha/Desktop/SeattleUniversity/SoftwareArch/processedImages
